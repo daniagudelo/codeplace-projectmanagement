@@ -1,5 +1,5 @@
 lsclass TasksController < ApplicationController
-  before_action :set_task, only: [:show, :edit, :update, :destroy]
+  before_action :set_task, only: [:show, :edit, :update, :destroy, :change]
   before_action :authenticate_user!
 
   # GET /tasks
@@ -63,6 +63,13 @@ lsclass TasksController < ApplicationController
       format.json { head :no_content }
     end
   end
+  
+    def change
+      @task.update_attributes(state: params[:state])
+      respond_to do |format|
+        format.html {redirect_to tasks_path, notice: "Task status was successfully changed."}
+      end
+    end
 
   private
     # Use callbacks to share common setup or constraints between actions.
